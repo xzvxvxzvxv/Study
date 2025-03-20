@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟卷选择</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 页面基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        /* 头部样式 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .back-btn {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background-color: #e68900;
+        }
+
+        /* 按钮区域：双列布局 */
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .test-grid button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: none;
+            background-color: #2196F3;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .test-grid button:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button class="back-btn" onclick="goBack()">返回</button>
+            <h2>选择模拟卷</h2>
+        </header>
+        
+        <!-- 按钮区域 -->
+        <div class="test-grid" id="test-list"></div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = "index.html";
+        }
+
+        // 按钮跳转路径
+        const urls = [
+            "monijuan/index.html", "test2.html", "test3.html", "test4.html", "test5.html",
+            "test6.html", "test7.html", "test8.html", "test9.html", "test10.html",
+            "test11.html", "test12.html", "test13.html", "test14.html", "test15.html",
+            "test16.html", "test17.html", "test18.html", "test19.html", "test20.html",
+            "test21.html", "test22.html", "test23.html", "test24.html", "test25.html",
+            "test26.html", "test27.html", "test28.html", "test29.html", "test30.html"
+        ];
+
+        // 生成按钮
+        const testList = document.getElementById("test-list");
+        urls.forEach((url, index) => {
+            let button = document.createElement("button");
+            button.textContent = `模拟卷 ${index + 1}`;
+            button.onclick = () => window.location.href = url;
+            testList.appendChild(button);
+        });
+    </script>
+</body>
+</html>

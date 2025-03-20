@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模拟测试系统</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- MathJax 配置 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        packages: {'[+]': ['ams']}
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        ignoreHtmlClass: 'tex2jax_ignore'
+      },
+      loader: {load: ['[tex]/ams']}
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+
+  <style>
+    /* 弹窗样式 */
+    #exitModal {
+      display: none; /* 初始隐藏 */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    #exitModal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .exit-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    .exit-content h3 {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      color: #333;
+    }
+
+    .exit-content p {
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .exit-content button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #confirm-exit {
+      background-color: #28a745;
+      color: white;
+    }
+
+    #confirm-exit:hover {
+      background-color: #218838;
+    }
+
+    #cancel-exit {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #cancel-exit:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="text-center">模拟卷一</h1>
+      <div id="countdown-timer">倒计时：120:00</div>
+      <button id="simulate-test">退出</button>
+    </header>
+
+    <main>
+      <div class="question-container">
+        <h2 id="question-title"></h2>
+        <ul id="options"></ul>
+        <div id="explanation" class="hidden"></div>
+      </div>
+
+      <div class="controls">
+        <button id="prev" class="hidden">上一题</button>
+        <button id="submit-answer">提交答案</button>
+        <button id="next">下一题</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- 退出确认弹窗 -->
+  <div id="exitModal">
+    <div class="exit-content">
+      <h3>温馨提示</h3>
+      <p>退出将清空所有数据，确定退出吗？</p>
+      <button id="confirm-exit">确定</button>
+      <button id="cancel-exit">取消</button>
+    </div>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+
+  <footer>
+    <div class="police-备案">
+      <p style="text-align: center; font-family: Arial, sans-serif; font-size: 0.9em; color: #666;">
+        京公网安备 79568645号<br>
+        主办单位：陈晓晓公司<br>
+        备案日期：2025年03月03日
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('simulate-test').addEventListener('click', () => {
+      document.getElementById('exitModal').classList.add('show');
+    });
+
+    document.getElementById('confirm-exit').addEventListener('click', () => {
+      window.location.href = "../zhongzhuan.html"; // 修正跳转路径
+    });
+
+    document.getElementById('cancel-exit').addEventListener('click', () => {
+      document.getElementById('exitModal').classList.remove('show');
+    });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 获取退出按钮和弹窗
+  const exitModal = document.getElementById('exitModal');
+  const confirmExit = document.getElementById('confirm-exit');
+  const cancelExit = document.getElementById('cancel-exit');
+  const simulateTest = document.getElementById('simulate-test');
+
+  // 显示退出弹窗
+  simulateTest.addEventListener('click', () => {
+    exitModal.classList.add('show');
+  });
+
+  // 取消退出
+  cancelExit.addEventListener('click', () => {
+    exitModal.classList.remove('show');
+  });
+
+  // 确定退出并跳转
+  confirmExit.addEventListener('click', () => {
+    console.log("退出按钮被点击，正在跳转到 ../zhongzhuan.html...");
+    window.location.href = "../zhongzhuan.html"; // 跳转到上一级目录
+  });
+});
+
+
+
+
+  </script>
+</body>
+</html>

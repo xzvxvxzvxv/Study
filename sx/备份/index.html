@@ -1,0 +1,434 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刷题练习系统</title>
+    <link rel="stylesheet" href="style.css">
+
+
+
+
+<!-- 在head标签内添加MathJax配置 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<!-- 异步加载 MathJax -->
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    
+<script>
+// 当页面切换或新内容加载后，调用此函数更新公式渲染
+function renderMath() {
+  if (window.MathJax) {
+    MathJax.typesetPromise().catch(function(err) {
+      console.error('MathJax渲染错误: ', err);
+    });
+  }
+}
+
+// 示例：监听自定义的页面切换事件
+document.addEventListener('pageChanged', function() {
+  renderMath();
+});
+</script>
+
+
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- 在head标签内添加优化后的样式 -->
+<style>
+:root {
+    --primary: #6366f1;
+    --primary-light: #818cf8;
+    --success: #10b981;
+    --danger: #ef4444;
+    --background: #f8fafc;
+    --text: #1e293b;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+}
+
+#progress {
+    background: #f1f5f9;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+button {
+    background: linear-gradient(to right, var(--primary), var(--primary-light));
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+}
+
+.question-container {
+    margin: 2rem 0;
+}
+
+#question-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    color: #1e293b;
+}
+
+#options {
+    display: grid;
+    gap: 1rem;
+}
+
+#options li {
+    background: white;
+    padding: 1.25rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#options li:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.1);
+}
+
+#options li.correct {
+    border-color: var(--success);
+    background: #f0fdf4;
+}
+
+#options li.wrong {
+    border-color: var(--danger);
+    background: #fef2f2;
+}
+
+#explanation {
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    background: #f8fafc;
+    border-radius: 1rem;
+    border-left: 4px solid var(--primary);
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* 优化弹窗样式 */
+.congrat-modal {
+    backdrop-filter: blur(8px);
+}
+
+.congrat-content {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+}
+
+.confirm-btn {
+    background: linear-gradient(to right, var(--success), #34d399);
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    header {
+        grid-template-columns: 1fr;
+    }
+    
+    #question-title {
+        font-size: 1.2rem;
+    }
+    
+    #options li {
+        padding: 1rem;
+    }
+}
+</style>
+
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+           <h1 style="text-align: center;">题库练习</h1>
+            <div id="progress">进度：已完成 0/0 题（正确率 0%）</div>
+    <button id="simulate-test">职测练习</button>
+
+
+            <button id="reset">重置进度</button>
+
+
+      <div id="online-users">在线学习：<span id="online-count">0</span>人</div>
+    </div>
+  
+</header>
+
+<style>
+/* 新增在线人数样式 */
+.header-info {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+#online-users {
+    background: #f0f4ff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9em;
+    color: #2c3e50;
+}
+
+#online-count {
+    color: #2196F3;
+    font-weight: bold;
+    margin: 0 0.2em;
+}
+
+/* 调整原有header样式 */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+</style>
+
+<script>
+// 在script.js中添加以下代码
+// 模拟实时在线人数（每5秒更新）
+let onlineUsers = Math.floor(Math.random() * 50 + 20); // 初始随机值
+
+function updateOnlineUsers() {
+    // 模拟人数波动
+    const variation = Math.random() > 0.5 ? 1 : -1;
+    onlineUsers = Math.max(10, onlineUsers + variation);
+    
+    // 更新显示
+    document.getElementById('online-count').textContent = onlineUsers;
+    
+    // 添加动画效果
+    const element = document.getElementById('online-users');
+    element.style.transform = 'scale(1.05)';
+    setTimeout(() => element.style.transform = 'scale(1)', 200);
+}
+
+// 初始化
+window.addEventListener('DOMContentLoaded', () => {
+    // 初始值
+    onlineUsers = Math.floor(Math.random() * 50 + 20);
+    updateOnlineUsers();
+    
+    // 定时更新
+    setInterval(updateOnlineUsers, 5000);
+});
+</script>
+
+        </header>
+
+
+<script>
+// 模拟测试按钮功能
+document.getElementById('simulate-test').addEventListener('click', () => {
+    window.location.href = '../index.html';
+});
+
+// 保持原有在线人数代码...
+</script>
+
+
+
+
+
+        
+        <main>
+            <div class="question-container">
+                <h2 id="question-title"></h2>
+                <ul id="options"></ul>
+                <div id="explanation" class="hidden"></div>
+            </div>
+            
+            <div class="controls">
+                <button id="prev">上一题</button>
+                <button id="next">下一题</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+
+
+<footer>
+  <p style="text-align: center; font-family: Arial, sans-serif; font-size: 0.9em; color: #666;">
+    ©️由陈晓晓独家创作</p>
+</footer>
+
+
+<!-- 金榜题名弹窗 -->
+<div id="congratModal" class="congrat-modal">
+  <div class="congrat-content">
+    <h3>🎉 温馨提示</h3>
+    <p>祝各位同学金榜题名！</p>
+    <button class="confirm-btn">确定</button>
+  </div>
+</div>
+
+<style>
+/* 弹窗样式 */
+.congrat-modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.congrat-content {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  text-align: center;
+  max-width: 300px;
+  animation: modalSlide 0.3s ease-out;
+}
+
+@keyframes modalSlide {
+  from { transform: translateY(-100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.confirm-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background 0.3s;
+}
+
+.confirm-btn:hover {
+  background: #45a049;
+}
+</style>
+
+<script>
+// 显示弹窗
+window.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('congratModal');
+  modal.style.display = 'flex';
+  
+  // 点击确定按钮关闭
+  document.querySelector('.confirm-btn').addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+  
+  // 点击背景关闭
+  modal.addEventListener('click', (e) => {
+    if(e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+});
+</script>
+
+
+<footer>
+  
+
+  <!-- 公安备案信息 -->
+  <div class="police-备案">
+    <p style="text-align: center; font-family: Arial, sans-serif; font-size: 0.9em; color: #666;">
+      京公网安备 79568645号<br>
+      主办单位：陈晓晓公司<br>
+      备案日期：2025年03月03日
+    </p>
+  </div>
+</footer>
+
+
+
+
+</body>
+</html>
